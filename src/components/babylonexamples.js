@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { PBR } from "../PBR.ts";
+import { PBR } from "../babylonTS/PBR.ts";
 
 const Babylonexamples = () => {
   useEffect(() => {
