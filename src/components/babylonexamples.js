@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import { PBR } from "../babylonTS/PBR.ts";
+import { customModel } from "../babylonTS/customModel.ts";
 
 const Babylonexamples = () => {
   useEffect(() => {
     const canvas = document.querySelector("canvas");
-    new PBR(canvas);
+    new customModel(canvas);
   });
   return (
     <div>

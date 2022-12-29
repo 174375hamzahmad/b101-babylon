@@ -1,5 +1,6 @@
 import {
   Scene,
+  Engine,
   FreeCamera,
   Vector3,
   HemisphericLight,
@@ -8,7 +9,6 @@ import {
   PBRMaterial,
   Texture,
 } from "@babylonjs/core";
-import { Engine } from "@babylonjs/core/Engines";
 
 class PBR {
   scene: Scene;
