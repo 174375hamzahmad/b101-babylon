@@ -20,9 +20,13 @@ class customModel {
     this.engine = new Engine(this.canvas, true);
     this.scene = this.createScene();
 
-    this.createEnvironment();
+    //this.createEnvironment();
 
-    this.createBarrel();
+    this.createPortalRoomSmall();
+    this.createPortalTextured(-1.5, 0, 0);
+    this.createPortalTextured(1.2, 0, -1);
+    this.createPortalTextured(-1.2, 0, -1);
+    this.createPortalTextured(0.7, 0, -1.5);
 
     this.engine.runRenderLoop(() => {
       this.scene.render();
@@ -34,14 +38,9 @@ class customModel {
     const camera = new FreeCamera("camera", new Vector3(0, 1, -5), this.scene);
     camera.attachControl();
     camera.speed = 0.25;
+    camera.keysUpward = [32]; // spacebar for upward
 
-    const hemiLight = new HemisphericLight(
-      "hemiLight",
-      new Vector3(0, 1, 0),
-      this.scene
-    );
-
-    hemiLight.intensity = 0;
+    camera.keysDownward = [17]; // left ctrl for downward
 
     const envTex = CubeTexture.CreateFromPrefilteredData(
       "./environment/sky.env",
@@ -62,7 +61,6 @@ class customModel {
       },
       this.scene
     );
-
     ground.material = this.createAsphalt();
   }
   createAsphalt(): PBRMaterial {
@@ -91,16 +89,32 @@ class customModel {
 
     return pbr;
   }
-  createBarrel(): void {
-    SceneLoader.ImportMesh(
+
+  async createPortalRoomSmall(): Promise<void> {
+    const models = await SceneLoader.ImportMeshAsync(
       "",
       "./models/",
-      "barrel.glb",
-      this.scene,
-      (meshes) => {
-        console.log("meshes", meshes);
-      }
-    );
+      "PortalRoomSmall.glb",
+      this.scene
+    ).then((result) => {
+      result.meshes[0].scaling.x = 3;
+      result.meshes[0].scaling.y = 3;
+      result.meshes[0].scaling.z = 3;
+    });
+  }
+  async createPortalTextured(x, y, z): Promise<void> {
+    const models = await SceneLoader.ImportMeshAsync(
+      "",
+      "./models/",
+      "PortalTexured1.glb",
+      this.scene
+    ).then((result) => {
+      result.meshes[0].scaling.x = 0.16;
+      result.meshes[0].scaling.y = 0.16;
+      result.meshes[0].scaling.z = 0.16;
+      result.meshes[0].position = new Vector3(x, y, z);
+      //result.meshes[0].rotation = new Vector3(2 * Math.PI * Math.random(), 2 * Math.PI * Math.random(), 2 * Math.PI * Math.random());
+    });
   }
 }
 export { customModel };

@@ -29,6 +29,8 @@ class PBR {
     const camera = new FreeCamera("camera", new Vector3(0, 1, -5), this.scene);
     camera.attachControl();
     camera.speed = 0.25;
+    camera.keysUpward = [32]; // spacebar for upward
+    camera.keysDownward = [17]; // left ctrl for downward
 
     const hemiLight = new HemisphericLight(
       "hemiLight",

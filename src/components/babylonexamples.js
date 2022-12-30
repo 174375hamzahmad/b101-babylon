@@ -1,15 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { customModel } from "../babylonTS/customModel.ts";
 
 const Babylonexamples = () => {
+  const canvasRef = useRef(null);
   useEffect(() => {
-    const canvas = document.querySelector("canvas");
+    const canvas = canvasRef.current;
     new customModel(canvas);
-  });
+  }, []);
   return (
     <div>
       <h3>Babylon examples</h3>
-      <canvas></canvas>
+      <canvas ref={canvasRef}></canvas>
     </div>
   );
 };
