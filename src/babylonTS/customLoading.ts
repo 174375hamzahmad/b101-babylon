@@ -3,8 +3,6 @@ import {
   Engine,
   FreeCamera,
   Vector3,
-  MeshBuilder,
-  CubeTexture,
   SceneLoader,
   HemisphericLight,
 } from "@babylonjs/core";

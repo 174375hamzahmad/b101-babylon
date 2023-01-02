@@ -1,10 +1,10 @@
-import Babylonexamples from "./components/babylonexamples";
+import ProductPreview from "./components/productPreview";
 import "./App.css";
 
 function App() {
   return (
     <div className="App">
-      <Babylonexamples />
+      <ProductPreview />
     </div>
   );
 }
