@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from "react";
-import { customModel } from "../babylonTS/customModel.ts";
+import { lightShadows } from "../babylonTS/lightsShadows.ts";
 
 const Babylonexamples = () => {
   const canvasRef = useRef(null);
   useEffect(() => {
     const canvas = canvasRef.current;
-    new customModel(canvas);
+    new lightShadows(canvas);
   }, []);
   return (
     <div>
