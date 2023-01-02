@@ -102,7 +102,7 @@ class customModel {
       result.meshes[0].scaling.z = 3;
     });
   }
-  async createPortalTextured(x, y, z): Promise<void> {
+  async createPortalTextured(x: any, y: any, z: any): Promise<void> {
     const models = await SceneLoader.ImportMeshAsync(
       "",
       "./models/",
