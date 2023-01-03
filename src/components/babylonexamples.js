@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { customLoading } from "../babylonTS/customLoading.ts";
 import { MeshActions } from "../babylonTS/meshActions";
 import { FirstPersonController } from "../babylonTS/firstPersonController";
+import { physicsImposters } from "../babylonTS/physicsImposters";
 
 const Babylonexamples = () => {
   const canvasRef = useRef(null);
@@ -14,7 +15,7 @@ const Babylonexamples = () => {
     // const percentLoaded = percentLoadedRef.current;
     // const loader = loaderRef.current;
     // new customLoading(canvas, loadingBar, percentLoaded, loader);
-    new FirstPersonController(canvas);
+    new physicsImposters(canvas);
   }, []);
   return (
     <>
@@ -29,7 +30,7 @@ const Babylonexamples = () => {
           25%
         </p>
       </div> */}
-      <h3>First Person Controller</h3>
+      <h3>physics Imposters</h3>
       <canvas ref={canvasRef}></canvas>
     </>
   );
