@@ -34,9 +34,13 @@ class customModel {
     this.scene.onPointerObservable.add((e) => {
       if (e.type == PointerEventTypes.POINTERDOWN) {
         if (
-          (e.pickInfo.hit &&
-            e.pickInfo.pickedMesh.id === "PortalFrame_primitive0") ||
-          e.pickInfo.pickedMesh.id === "PortalFrame_primitive1"
+          // (e.pickInfo.hit &&
+          //   e.pickInfo.pickedMesh.id === "PortalFrame_primitive0") ||
+          // e.pickInfo.pickedMesh.id === "PortalFrame_primitive1" ||
+          // e.pickInfo.pickedMesh.id === "PortalBase_primitive0" ||
+          // e.pickInfo.pickedMesh.id === "PortalBase_primitive1"
+          e.pickInfo.hit &&
+          e.pickInfo.pickedMesh.name === "ball"
         ) {
           this.engine.displayLoadingUI();
           this.scene.dispose();
@@ -72,6 +76,9 @@ class customModel {
     scene.environmentTexture = envTex;
     scene.createDefaultSkybox(envTex, true);
     scene.environmentIntensity = 0.5;
+
+    const ball = MeshBuilder.CreateSphere("ball", { diameter: 1 }, this.scene);
+    ball.position = new Vector3(4, 0, 0);
     return scene;
   }
 
@@ -106,7 +113,7 @@ class customModel {
       this.portalTexture.actionManager.registerAction(
         new SetValueAction(
           ActionManager.OnPickDownTrigger,
-          this.scene,
+          this.portalTexture,
           "scaling",
           new Vector3(1.5, 1.5, 1.5)
         )

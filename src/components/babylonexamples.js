@@ -17,7 +17,7 @@ const Babylonexamples = () => {
     // const percentLoaded = percentLoadedRef.current;
     // const loader = loaderRef.current;
     // new customLoading(canvas, loadingBar, percentLoaded, loader);
-    const cT = new CollisionsTriggers(canvas);
+    const cT = new customModel(canvas);
     return () => {
       cT.dispose();
     };
@@ -36,7 +36,7 @@ const Babylonexamples = () => {
           25%
         </p>
       </div> */}
-      <h3>Babylon examples</h3>
+      <h3>Babylonexamples</h3>
       <canvas ref={canvasRef}></canvas>
     </>
   );
