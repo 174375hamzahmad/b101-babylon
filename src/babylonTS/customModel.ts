@@ -9,18 +9,21 @@ import {
   PBRMaterial,
   Texture,
   SceneLoader,
+  AbstractMesh,
+  ActionManager,
+  SetValueAction,
+  PointerEventTypes,
 } from "@babylonjs/core";
 import "@babylonjs/loaders";
 
 class customModel {
   scene: Scene;
   engine: Engine;
+  portalTexture: AbstractMesh;
 
   constructor(private canvas: HTMLCanvasElement) {
     this.engine = new Engine(this.canvas, true);
     this.scene = this.createScene();
-
-    //this.createEnvironment();
 
     this.createPortalRoomSmall();
     this.createPortalTextured(-1.5, 0, 0);
@@ -28,11 +31,30 @@ class customModel {
     this.createPortalTextured(-1.2, 0, -1);
     this.createPortalTextured(0.7, 0, -1.5);
 
+    this.scene.onPointerObservable.add((e) => {
+      if (e.type == PointerEventTypes.POINTERDOWN) {
+        if (
+          (e.pickInfo.hit &&
+            e.pickInfo.pickedMesh.id === "PortalFrame_primitive0") ||
+          e.pickInfo.pickedMesh.id === "PortalFrame_primitive1"
+        ) {
+          this.engine.displayLoadingUI();
+          this.scene.dispose();
+          this.scene = null;
+          this.scene = this.createScene2();
+          this.engine.hideLoadingUI();
+        }
+      }
+    });
+
     this.engine.runRenderLoop(() => {
       this.scene.render();
     });
   }
 
+  public dispose() {
+    this.scene?.getEngine().dispose();
+  }
   createScene(): Scene {
     const scene = new Scene(this.engine);
     const camera = new FreeCamera("camera", new Vector3(0, 1, -5), this.scene);
@@ -51,43 +73,6 @@ class customModel {
     scene.createDefaultSkybox(envTex, true);
     scene.environmentIntensity = 0.5;
     return scene;
-  }
-  createEnvironment() {
-    const ground = MeshBuilder.CreateGround(
-      "ground",
-      {
-        width: 10,
-        height: 10,
-      },
-      this.scene
-    );
-    ground.material = this.createAsphalt();
-  }
-  createAsphalt(): PBRMaterial {
-    const pbr = new PBRMaterial("pbr", this.scene);
-    pbr.roughness = 1;
-
-    pbr.albedoTexture = new Texture(
-      "./textures/asphalt/asphalt_02_diff_1k.jpg",
-      this.scene
-    );
-    pbr.bumpTexture = new Texture(
-      "./textures/asphalt/asphalt_02_nor_gl_1k.jpg",
-      this.scene
-    );
-    pbr.invertNormalMapX = true;
-    pbr.invertNormalMapY = true;
-
-    pbr.useAmbientOcclusionFromMetallicTextureRed = true;
-    pbr.useRoughnessFromMetallicTextureGreen = true;
-    pbr.useMetallnessFromMetallicTextureBlue = true;
-
-    pbr.ambientTexture = new Texture(
-      "./textures/asphalt/asphalt_02_arm_1k.jpg",
-      this.scene
-    );
-
-    return pbr;
   }
 
   async createPortalRoomSmall(): Promise<void> {
@@ -109,12 +94,40 @@ class customModel {
       "PortalTexured1.glb",
       this.scene
     ).then((result) => {
+      console.log(result);
       result.meshes[0].scaling.x = 0.16;
       result.meshes[0].scaling.y = 0.16;
       result.meshes[0].scaling.z = 0.16;
       result.meshes[0].position = new Vector3(x, y, z);
       //result.meshes[0].rotation = new Vector3(2 * Math.PI * Math.random(), 2 * Math.PI * Math.random(), 2 * Math.PI * Math.random());
+      this.portalTexture = result.meshes[1];
+
+      this.portalTexture.actionManager = new ActionManager(this.scene);
+      this.portalTexture.actionManager.registerAction(
+        new SetValueAction(
+          ActionManager.OnPickDownTrigger,
+          this.scene,
+          "scaling",
+          new Vector3(1.5, 1.5, 1.5)
+        )
+      );
     });
+  }
+  createScene2(): Scene {
+    const scene = new Scene(this.engine);
+    const camera = new FreeCamera("camera", new Vector3(0, 1, -5), this.scene);
+    camera.attachControl();
+    camera.speed = 0.25;
+
+    const envTex = CubeTexture.CreateFromPrefilteredData(
+      "./environment/xmas_bg.env",
+      scene
+    );
+
+    scene.environmentTexture = envTex;
+    scene.createDefaultSkybox(envTex, true);
+    scene.environmentIntensity = 0.5;
+    return scene;
   }
 }
 export { customModel };
