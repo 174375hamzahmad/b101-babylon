@@ -7,6 +7,7 @@ import { CollisionsTriggers } from "../babylonTS/collisionsAndTriggers";
 import { customModel } from "../babylonTS/customModel";
 import { PhysicsVelocity } from "../babylonTS/physicsVelocity";
 import { PhysicsForces } from "../babylonTS/physicsForces";
+import { Raycasting } from "../babylonTS/raycasting";
 
 const Babylonexamples = () => {
   const canvasRef = useRef(null);
@@ -19,7 +20,7 @@ const Babylonexamples = () => {
     // const percentLoaded = percentLoadedRef.current;
     // const loader = loaderRef.current;
     // new customLoading(canvas, loadingBar, percentLoaded, loader);
-    const cT = new PhysicsForces(canvas);
+    const cT = new Raycasting(canvas);
     return () => {
       cT.dispose();
     };
