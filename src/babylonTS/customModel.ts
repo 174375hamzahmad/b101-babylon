@@ -13,6 +13,7 @@ import {
   ActionManager,
   SetValueAction,
   PointerEventTypes,
+  ExecuteCodeAction,
 } from "@babylonjs/core";
 import "@babylonjs/loaders";
 
@@ -26,10 +27,10 @@ class customModel {
     this.scene = this.createScene();
 
     this.createPortalRoomSmall();
-    this.createPortalTextured(-1.5, 0, 0);
-    this.createPortalTextured(1.2, 0, -1);
-    this.createPortalTextured(-1.2, 0, -1);
-    this.createPortalTextured(0.7, 0, -1.5);
+    this.createPortalTextured("standardMaterial", -1.5, 0, 0);
+    this.createPortalTextured("bbc", 1.2, 0, -1);
+    // this.createPortalTextured(-1.2, 0, -1);
+    // this.createPortalTextured(0.7, 0, -1.5);
 
     this.scene.onPointerObservable.add((e) => {
       if (e.type == PointerEventTypes.POINTERDOWN) {
@@ -94,7 +95,7 @@ class customModel {
       result.meshes[0].scaling.z = 3;
     });
   }
-  async createPortalTextured(x: any, y: any, z: any): Promise<void> {
+  async createPortalTextured(name, x: any, y: any, z: any): Promise<void> {
     const models = await SceneLoader.ImportMeshAsync(
       "",
       "./models/",
@@ -111,12 +112,16 @@ class customModel {
 
       this.portalTexture.actionManager = new ActionManager(this.scene);
       this.portalTexture.actionManager.registerAction(
-        new SetValueAction(
-          ActionManager.OnPickDownTrigger,
-          this.portalTexture,
-          "scaling",
-          new Vector3(1.5, 1.5, 1.5)
-        )
+        new ExecuteCodeAction(ActionManager.OnPickDownTrigger, async (e) => {
+          if (name === "standardMaterial") {
+            this.engine.displayLoadingUI();
+            this.scene.dispose();
+
+            this.scene = null;
+            this.scene = this.createScene2();
+            this.engine.hideLoadingUI();
+          }
+        })
       );
     });
   }
