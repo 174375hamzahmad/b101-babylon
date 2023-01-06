@@ -8,6 +8,8 @@ import { customModel } from "../babylonTS/customModel";
 import { PhysicsVelocity } from "../babylonTS/physicsVelocity";
 import { PhysicsForces } from "../babylonTS/physicsForces";
 import { Raycasting } from "../babylonTS/raycasting";
+import { basicAnimations } from "../babylonTS/basicAnimations";
+import { CharacterAnimations } from "../babylonTS/characterAnimations";
 
 const Babylonexamples = () => {
   const canvasRef = useRef(null);
@@ -20,7 +22,7 @@ const Babylonexamples = () => {
     // const percentLoaded = percentLoadedRef.current;
     // const loader = loaderRef.current;
     // new customLoading(canvas, loadingBar, percentLoaded, loader);
-    const cT = new Raycasting(canvas);
+    const cT = new CharacterAnimations(canvas);
     return () => {
       cT.dispose();
     };
