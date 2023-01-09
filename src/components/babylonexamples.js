@@ -12,6 +12,7 @@ import { basicAnimations } from "../babylonTS/basicAnimations";
 import { CharacterAnimations } from "../babylonTS/characterAnimations";
 import { cutScene } from "../babylonTS/cutScene";
 import { animationEvents } from "../babylonTS/animationEvents";
+import { AnimBlending } from "../babylonTS/animationBlending";
 
 const Babylonexamples = () => {
   const canvasRef = useRef(null);
