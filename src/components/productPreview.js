@@ -5,7 +5,11 @@ const ProductPreview = () => {
   const canvasRef = useRef(null);
   useEffect(() => {
     const canvas = canvasRef.current;
-    new CameraMechanics(canvas);
+    const cT = new CameraMechanics(canvas);
+
+    return () => {
+      cT.dispose();
+    };
   }, []);
   return (
     <main>

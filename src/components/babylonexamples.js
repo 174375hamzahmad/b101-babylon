@@ -14,6 +14,7 @@ import { cutScene } from "../babylonTS/cutScene";
 import { animationEvents } from "../babylonTS/animationEvents";
 import { AnimBlending } from "../babylonTS/animationBlending";
 import { AudioEffects } from "../babylonTS/audioEffects";
+import { ATM } from "../babylonTS/ATM";
 
 const Babylonexamples = () => {
   const canvasRef = useRef(null);
@@ -26,7 +27,7 @@ const Babylonexamples = () => {
     // const percentLoaded = percentLoadedRef.current;
     // const loader = loaderRef.current;
     // new customLoading(canvas, loadingBar, percentLoaded, loader);
-    const cT = new AudioEffects(canvas);
+    const cT = new ATM(canvas);
     return () => {
       cT.dispose();
     };
@@ -45,7 +46,7 @@ const Babylonexamples = () => {
           25%
         </p>
       </div> */}
-      <h3>Audio Example</h3>
+      <h3>ATM</h3>
       <canvas ref={canvasRef}></canvas>
     </>
   );
